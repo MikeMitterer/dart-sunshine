@@ -4,16 +4,30 @@
   Copyright (c) 2016, <your name>. All rights reserved. Use of this source code
   is governed by a BSD-style license that can be found in the LICENSE file.
 -->
+<!-- ff -->
 
 <html>
 <head>
+    <!-- This header tag references the manifest file. -->
+    <link rel="manifest" href="manifest.json" />
+
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="scaffolded-by" content="https://github.com/google/stagehand">
+
+    <!-- Material fonts -->
+    <!--<link rel="stylesheet" href="packages/mdl/assets/fonts/fonts.min.css">-->
+
+    <!-- Your red-pink-theme! -->
+    <link id="theme" rel="stylesheet"
+          href="https://cdn.rawgit.com/MikeMitterer/dart-mdl-theme/v1.19.1/red-pink/material.min.css">
+    
     <title>MiniWebApp</title>
     <link rel="stylesheet" href="styles.css">
+    
     <script defer src="main.dart" type="application/dart"></script>
+    <!-- mdl-dart -->
     <script defer src="packages/browser/dart.js"></script>
 </head>
 
@@ -21,5 +35,8 @@
 
   <div id="output"></div>
 
+    <div class="xxx-button">
+        Mike
+    </div>
 </body>
 </html>

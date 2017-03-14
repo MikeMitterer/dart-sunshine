@@ -1,4 +1,4 @@
-name: 'MiniWebApp'
+name: 'mini_webapp'
 version: 0.0.1
 description: An absolute bare-bones web app.
 #author: Your Name <email@example.com>
@@ -9,7 +9,26 @@ environment:
 
 dependencies:
   browser: '>=0.10.0 <0.11.0'
+
+  logging: any
+  logging_handlers: any
+  console_log_handler: any
+
+  service_worker: any
+
   dart_to_js_script_rewriter: '^1.0.1'
 
+  sass_transformer: any
+
 transformers:
-- dart_to_js_script_rewriter
+  - dart_to_js_script_rewriter
+
+#  - mini_webapp
+
+#  - sass_transformer
+
+#      include_paths:
+#        - lib/assets/styles
+
+service_worker:
+  path: '../'
