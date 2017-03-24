@@ -4,5 +4,74 @@ html, body {
   height: 100%;
   margin: 0;
   padding: 0;
-  font-family: 'Roboto', sans-serif;
-  background-color: red; }
+  font-family: 'Roboto', sans-serif; }
+
+.mdl-layout__header-row {
+  padding-left: 20px; }
+
+.mdl-layout__header-row-today {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-content: space-between;
+  align-items: flex-start; }
+  .mdl-layout__header-row-today .forecast_today {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-content: space-between;
+    align-items: stretch;
+    flex-grow: 1;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 200;
+    margin: 24px 17px 24px 33px; }
+    @media screen and (min-width: 450px) {
+      .mdl-layout__header-row-today .forecast_today {
+        margin: 16px 59px 16px 73px; } }
+    .mdl-layout__header-row-today .forecast_today .left {
+      display: flex;
+      flex-direction: column;
+      flex-wrap: wrap;
+      justify-content: flex-start;
+      align-content: space-between;
+      align-items: flex-start; }
+      .mdl-layout__header-row-today .forecast_today .left .item_date {
+        font-size: 18px;
+        transform: scale(1, 1.2);
+        line-height: 18px;
+        font-weight: 300; }
+      .mdl-layout__header-row-today .forecast_today .left .item_high {
+        font-family: 'Fira Sans', sans-serif;
+        font-size: 72px;
+        line-height: 72px;
+        padding: 18px 0;
+        letter-spacing: 0.1em;
+        margin-left: 0.1em; }
+      .mdl-layout__header-row-today .forecast_today .left .item_low {
+        font-size: 27px;
+        transform: scale(1, 1.2);
+        line-height: 27px;
+        font-weight: 500;
+        letter-spacing: 0.1em;
+        margin-left: 0.5em; }
+    .mdl-layout__header-row-today .forecast_today .right {
+      display: flex;
+      flex-direction: column;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      align-content: space-between;
+      align-items: center; }
+      .mdl-layout__header-row-today .forecast_today .right .item_icon {
+        margin-top: -16px; }
+        .mdl-layout__header-row-today .forecast_today .right .item_icon img {
+          height: 148px; }
+      .mdl-layout__header-row-today .forecast_today .right .item_forecast {
+        font-size: 18px;
+        transform: scale(1, 1.2);
+        line-height: 18px;
+        font-weight: 300; }
+
+.mdl-layout__content section {
+  padding: 12px; }

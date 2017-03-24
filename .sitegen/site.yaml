@@ -1,2 +1,5 @@
 #template_dir: ../_templates
 #assets_dir: ../_assets
+
+# Turne it off while developing
+autoprefixer: false

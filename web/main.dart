@@ -5,13 +5,50 @@ import 'dart:html';
 
 import 'package:logging/logging.dart';
 import 'package:console_log_handler/console_log_handler.dart';
+import 'package:di/di.dart' as di;
+
+import 'package:mdl/mdl.dart';
 
 import 'package:service_worker/window.dart' as sw;
 
 final Logger _logger = new Logger('mini_webapp.main');
 
+@MdlComponentModel @di.Injectable()
+class Application implements MaterialApplication {
+    final Logger _logger = new Logger('main.Application');
+
+    /// Added by the MDL/Dart-Framework (mdlapplication.dart)
+    final ActionBus _actionbus;
+
+    Application(this._actionbus) {
+    }
+
+    @override
+    void run() {
+        _bindSignals();
+    }
+
+    //- private -----------------------------------------------------------------------------------
+
+    void _bindSignals() {
+        // Not necessary - just a demonstration how to listen to the "global" ActionBus
+        // _actionbus.on(AddItemAction.NAME).listen((_) {
+        //    _logger.info("User clicked on 'Add'!");
+        //});
+    }
+}
+
 Future main() async {
     configLogger();
+
+    registerMdl();
+
+    final MaterialApplication application = await componentFactory().rootContext(Application)
+        .addModule(new SampleModule())
+        .run();
+
+    application.run();
+    
     querySelector('#output').text = "Your Dart app is running.";
 
     if (sw.isNotSupported) {
@@ -39,6 +76,14 @@ Future main() async {
 //    _logger.fine('endpoint: ${subs.endpoint}');
 }
 
+/**
+ * Application-Config via DI
+ */
+class SampleModule extends di.Module {
+    SampleModule() {
+
+    }
+}
 void configLogger() {
     hierarchicalLoggingEnabled = false; // set this to true - its part of Logging SDK
 

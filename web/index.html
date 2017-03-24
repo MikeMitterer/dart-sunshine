@@ -1,42 +1,145 @@
-<!DOCTYPE html>
-
-<!--
-  Copyright (c) 2016, <your name>. All rights reserved. Use of this source code
-  is governed by a BSD-style license that can be found in the LICENSE file.
--->
-<!-- ff -->
-
-<html>
+<!doctype html>
+<html lang="">
 <head>
-    <!-- This header tag references the manifest file. -->
-    <link rel="manifest" href="manifest.json" />
-
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="scaffolded-by" content="https://github.com/google/stagehand">
+    <meta name="description"
+          content="A front-end template that helps you build fast, modern mobile web apps.">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Material Design Lite</title>
 
-    <!-- Material fonts -->
-    <!--<link rel="stylesheet" href="packages/mdl/assets/fonts/fonts.min.css">-->
+    <!-- Add to homescreen for Chrome on Android -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <link rel="icon" sizes="192x192" href="images/touch/chrome-touch-icon-192x192.png">
 
-    <!-- Your red-pink-theme! -->
+    <!-- Add to homescreen for Safari on iOS -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="Material Design Lite">
+    <link rel="apple-touch-icon-precomposed" href="apple-touch-icon-precomposed.png">
+
+    <!-- Tile icon for Win8 (144x144 + tile color) -->
+    <meta name="msapplication-TileImage"
+          content="images/touch/ms-touch-icon-144x144-precomposed.png">
+    <meta name="msapplication-TileColor" content="#3372DF">
+
+    <!-- SEO: If your mobile URL is different from the desktop URL, add a canonical link to the desktop page https://developers.google.com/webmasters/smartphone-sites/feature-phones -->
+    <!--
+    <link rel="canonical" href="http://www.example.com/">
+    -->
+
+
+    <!-- Fonts for this application -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en"
+          rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/css?family=Fira+Sans:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700|Nunito+Sans:200,200i,300,300i,400,400i,600,600i,700,700i|Open+Sans+Condensed:300,300i,700|Open+Sans:300,300i,400,400i,600,600i"
+          rel="stylesheet">
+
+    <!-- Your blue-green-theme! -->
     <link id="theme" rel="stylesheet"
-          href="https://cdn.rawgit.com/MikeMitterer/dart-mdl-theme/v1.19.1/red-pink/material.min.css">
-    
-    <title>MiniWebApp</title>
+          href="https://cdn.rawgit.com/MikeMitterer/dart-mdl-theme/v1.19.1/blue-green/material.min.css">
+
     <link rel="stylesheet" href="styles.css">
-    
-    <script defer src="main.dart" type="application/dart"></script>
-    <!-- mdl-dart -->
-    <script defer src="packages/browser/dart.js"></script>
+
+    <style>
+        div.loading { display : none; }
+
+        body.mdl-upgrading > * { display : none; }
+
+        body.mdl-upgrading div.loading { display : block; }
+    </style>
 </head>
 
-<body>
+<body class="mdl-typography mdl-base mdl-upgrading">
+<div class="loading">Loading...</div>
+<div class="mdl-layout mdl-layout--fixed-header">
+    <header class="mdl-layout__header mdl-layout__header--waterfall">
+        <div class="mdl-layout__header-row">
+            <span class="mdl-layout-title">
+                <img id="logo" src="res/drawable/ic_logo.png">
+            </span>
+            <!-- Add spacer, to align navigation to the right -->
+            <div class="mdl-layout-spacer"></div>
 
-  <div id="output"></div>
+            <div class="toolbar">
+            </div>
 
-    <div class="xxx-button">
-        Mike
-    </div>
+
+            <!-- 3-dots menu on the right -->
+            <button class="mdl-button mdl-button--icon mdl-ripple-effect mdl-color-text--white"
+                    id="settings">
+                <i class="material-icons">more_vert</i>
+            </button>
+            <ul class="mdl-menu mdl-menu--bottom-right mdl-ripple-effect" for="settings">
+                <li class="mdl-menu__item">Map Location</li>
+                <li class="mdl-menu__item">Settings</li>
+            </ul>
+        </div>
+        <div class="mdl-layout__header-row-today">
+            <div class="forecast_today">
+                <div class="left">
+                    <div class="item_date mdl-color-text--grey-200">Today, March 24</div>
+                    <div class="item_high mdl-color-text--grey-200">10&deg;</div>
+                    <div class="item_low mdl-color-text--grey-200">10&deg;</div>
+                </div>
+                <div class="right">
+                    <div class="item_icon"><img src="res/drawable/art_clouds.png"></div>
+                    <div class="item_forecast mdl-color-text--grey-200">Clouds</div>
+                </div>
+            </div>
+            
+        </div>
+    </header>
+    <main class="mdl-layout__content mdl-color--grey-100">
+        <section>
+            <div id="output"></div>
+
+            <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et
+                dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet
+                clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet,
+                consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat,
+                sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no
+                sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
+                <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et
+                dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet
+                clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet,
+                consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat,
+                sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no
+                sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
+                <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et
+                dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet
+                clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet,
+                consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat,
+                sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no
+                sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
+                <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et
+                dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet
+                clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet,
+                consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat,
+                sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no
+                sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
+                <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et
+                dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet
+                clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet,
+                consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat,
+                sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no
+                sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
+        </section>
+    </main>
+    <!--<footer class="mdl-sticky-mini-footer mdl-color&#45;&#45;primary mdl-color-text&#45;&#45;white">-->
+        <!--<div class="mdl-mini-footer&#45;&#45;left-section">-->
+            <!--<span class="sitegen-link">Page was generated with <a-->
+                    <!--href="https://pub.dartlang.org/packages/sitegen"-->
+                    <!--target="_blank">SiteGen.</a></span>-->
+        <!--</div>-->
+        <!--<div class="mdl-mini-footer&#45;&#45;right-section">-->
+            <!--<button class="mdl-mini-footer&#45;&#45;social-btn"></button>-->
+        <!--</div>-->
+    <!--</footer>-->
+</div>
+<script type="application/dart" src="main.dart"></script>
+<script data-pub-inline src="packages/browser/dart.js"></script>
 </body>
 </html>

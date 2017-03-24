@@ -1,18 +1,18 @@
-name: 'mini_webapp'
+name: 'dart_sunshine'
 version: 0.0.1
-description: An absolute bare-bones web app.
-#author: Your Name <email@example.com>
+description: Mimics Androids "Sunshine-App"
+author: Mike Mitterer<office@mikemitterer.at>
 #homepage: https://www.example.com
 
 environment:
-  sdk: '>=1.0.0 <2.0.0'
+  sdk: '>=1.20.0 <2.0.0'
 
 dependencies:
   browser: '>=0.10.0 <0.11.0'
 
-  logging: any
-  logging_handlers: any
-  console_log_handler: any
+  logging: ^0.11.0
+  logging_handlers: ^0.8.0
+  console_log_handler: ^0.2.0
 
   service_worker: any
 
@@ -20,7 +20,13 @@ dependencies:
 
   sass_transformer: any
 
+  mdl:
+    path: /Volumes/Daten/DevLocal/DevDart/MaterialDesignLite
+
+  di: ^3.3.9
+
 transformers:
+  - di
   - dart_to_js_script_rewriter
 
 #  - mini_webapp
@@ -29,6 +35,9 @@ transformers:
 
 #      include_paths:
 #        - lib/assets/styles
+
+  - $dart2js:
+      commandLineOptions: [--enable-experimental-mirrors]
 
 service_worker:
   path: '../'
