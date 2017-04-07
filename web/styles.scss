@@ -11,10 +11,44 @@ html, body {
 
 .mdl-layout__header-row {
     padding-left: 20px;
-    #logo {
+
+    .mdl-layout-title {
+        a {
+            text-decoration: none;
+        }
+        #logo {
+        }
+        div {
+            font-size: 24px;
+            font-weight: 400;
+            i {
+                margin-right: 24px;
+            }
+        }
     }
 }
 
+.visible- {
+    &home, &settings, &map {
+        display: none;
+
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: flex-start; // ⇾
+        align-content: space-between; // ||
+        align-items: center; // ↓
+    }
+
+    .view-home &home { display: flex; }
+    .view-settings &settings { display: flex; }
+    .view-map &map { display: flex; }
+}
+
+.mdl-layout__header-row-today {
+    .view-settings &, .view-map & {
+        display: none;
+    }
+}
 
 .mdl-layout__header-row-today {
     display: flex;

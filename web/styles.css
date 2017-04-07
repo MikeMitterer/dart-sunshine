@@ -8,6 +8,33 @@ html, body {
 
 .mdl-layout__header-row {
   padding-left: 20px; }
+  .mdl-layout__header-row .mdl-layout-title a {
+    text-decoration: none; }
+  .mdl-layout__header-row .mdl-layout-title div {
+    font-size: 24px;
+    font-weight: 400; }
+    .mdl-layout__header-row .mdl-layout-title div i {
+      margin-right: 24px; }
+
+.visible-home, .visible-settings, .visible-map {
+  display: none;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-content: space-between;
+  align-items: center; }
+
+.view-home .visible-home {
+  display: flex; }
+
+.view-settings .visible-settings {
+  display: flex; }
+
+.view-map .visible-map {
+  display: flex; }
+
+.view-settings .mdl-layout__header-row-today, .view-map .mdl-layout__header-row-today {
+  display: none; }
 
 .mdl-layout__header-row-today {
   display: flex;
