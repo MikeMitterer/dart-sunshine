@@ -13,6 +13,8 @@ import 'package:mdl/mdl.dart';
 
 import 'package:service_worker/window.dart' as sw;
 
+import 'package:dart_sunshine/stores.dart';
+
 final Logger _logger = new Logger('mini_webapp.main');
 
 @MdlComponentModel @di.Injectable()
@@ -42,6 +44,8 @@ class Application implements MaterialApplication {
         // _actionbus.on(AddItemAction.NAME).listen((_) {
         //    _logger.info("User clicked on 'Add'!");
         //});
+
+        
     }
 }
 
@@ -88,7 +92,7 @@ Future main() async {
  */
 class SampleModule extends di.Module {
     SampleModule() {
-
+        install(new StoreModule());
     }
 }
 

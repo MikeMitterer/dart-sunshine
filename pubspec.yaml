@@ -25,6 +25,13 @@ dependencies:
 
   di: ^3.3.9
 
+  http_utils: ^1.4.0
+
+dev_dependencies:
+  test: any
+  grinder: any
+  ansicolor: any
+
 transformers:
   - di
   - dart_to_js_script_rewriter
