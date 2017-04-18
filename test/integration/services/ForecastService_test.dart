@@ -23,7 +23,8 @@ main() async {
             final ForecastService service = new ForecastService(settings);
 
             final Map<String, dynamic> json = await service.toJson();
-            //print(json);
+            //print(PRETTYJSON.convert(json));
+            
             expect(json.containsKey("list"),isTrue);
             expect((json["list"] as List).length,14);
 

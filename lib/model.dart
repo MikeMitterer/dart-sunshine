@@ -21,6 +21,7 @@ library dart_sunshine.model;
 
 import 'dart:async';
 import 'dart:collection';
+import 'dart:convert';
 import 'dart:html' as dom;
 import 'dart:math' as Math;
 
@@ -30,6 +31,9 @@ import 'package:mdl/mdlutils.dart';
 import 'package:validate/validate.dart';
 import 'package:logging/logging.dart';
 import 'package:di/di.dart' as di;
+
+/// Helper to prettify JSON output
+const JsonEncoder PRETTYJSON = const JsonEncoder.withIndent('   ');
 
 /// Represents one forecast entry
 class Forecast {
