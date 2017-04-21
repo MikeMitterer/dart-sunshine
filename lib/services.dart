@@ -83,7 +83,25 @@ class ForecastService {
 //        return completer.future;
     }
 
+    Future<List<Forecast>> toForecast() async {
+        final Map<String,dynamic> json = await toJson();
+        final List<Forecast> forecast = new List<Forecast>();
+
+        if(json != null && json.containsKey("list")) {
+            final List<Map<String,dynamic>> list = json["list"] as List<Map<String,dynamic>>;
+            list.forEach((final Map<String,dynamic> item) {
+                final DateTime day = new DateTime.fromMillisecondsSinceEpoch(item["dt"] * 1000);
+                final String description = item["weather"].first["description"];
+                final String code = item["weather"].first["main"];
+                final double min = double.parse(item["temp"]["min"].toString());
+                final double max = double.parse(item["temp"]["max"].toString());
+
+                forecast.add(new Forecast(day, description, code, min, max));
+            });
+        }
+
+        return forecast;
+    }
+
     // - private -------------------------------------------------------------------------------------------------------
-
-
 }

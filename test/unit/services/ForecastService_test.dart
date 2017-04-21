@@ -1,5 +1,11 @@
 @TestOn("content-shell")
+library test.unit.services;
+
+import 'dart:convert';
+import 'dart:html';
+import 'package:dart_sunshine/mock.dart';
 import 'package:test/test.dart';
+import 'package:http_utils/http_utils.dart';
 
 // import 'package:logging/logging.dart';
 
@@ -15,6 +21,7 @@ main() async {
     //await saveDefaultCredentials();
 
     final Settings settings = new Settings("London",Units.METRIC,OPEN_WEATHER_MAP_API_KEY);
+    final Uri localForecast = new URIBuilder.forFile("../_resources/sample_data.json").build();
 
     group('ForecastService', () {
         setUp(() { });
@@ -27,6 +34,30 @@ main() async {
                 "APPID=dummy3a9b8385f7f7d542875a5ffed2d&cnt=14&mode=json&q=London&units=metric");
 
         }); // end of 'get uri' test
+
+        test('> loadLocalResource', () async {
+            final String jsonString = await HttpRequest.getString(localForecast.toString());
+            final Map<String,dynamic> json = JSON.decode(jsonString);
+            
+            expect((json["list"] as List).length,14);
+
+        }); // end of 'loadLocalResource' test
+
+        test('> toForecast', () async {
+            final String jsonString = await HttpRequest.getString(localForecast.toString());
+            final Map<String,dynamic> json = JSON.decode(jsonString);
+
+            final ForecastService service = new MockForecastService(settings,json);
+            final List<Forecast> forecast = await service.toForecast();
+
+            expect(forecast.length,14);
+
+            forecast.forEach((final Forecast f) {
+                print(f.date);
+            });
+
+
+        }); // end of 'toForecast' test
 
 
     });

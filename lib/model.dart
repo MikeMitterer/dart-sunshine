@@ -37,15 +37,15 @@ const JsonEncoder PRETTYJSON = const JsonEncoder.withIndent('   ');
 
 /// Represents one forecast entry
 class Forecast {
-    final DateTime _date;
-    final String _shortDescription;
+    final DateTime date;
+    final String shortDescription;
 
     /// Condition codes: https://openweathermap.org/weather-conditions
-    final String _conditionCode;
-    final int _maxTemp;
-    final int _minTemp;
+    final String conditionCode;
+    final double maxTemp;
+    final double minTemp;
 
-    Forecast(this._date, this._shortDescription, this._conditionCode, this._maxTemp, this._minTemp);
+    Forecast(this.date, this.shortDescription, this.conditionCode, this.maxTemp, this.minTemp);
 }
 
 /// Temperature is available in Fahrenheit, Celsius
