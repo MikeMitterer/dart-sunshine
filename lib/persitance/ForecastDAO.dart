@@ -35,7 +35,8 @@ class ForecastDAO {
         final Store db = await _db;
         final List<Forecast> forecasts = new List<Forecast>();
 
-        final int nrOfItems = int.parse(await db.getByKey(_KEY_NUMBER_OF_FORECASTS));
+
+        final int nrOfItems = int.parse(await db.getByKey(_KEY_NUMBER_OF_FORECASTS), onError: (_) => 0);
         await Future.forEach(new List.generate(nrOfItems, (final int index) => index), (final int index) async {
             final String json = await db.getByKey("${_KEY_FORECAST}$index");
             forecasts.add(new Forecast.fromJson(json));
