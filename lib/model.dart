@@ -36,6 +36,8 @@ import 'package:di/di.dart' as di;
 const JsonEncoder PRETTYJSON = const JsonEncoder.withIndent('   ');
 
 /// Represents one forecast entry
+///
+/// Serialization and DeSerialization to and from Json is included
 class Forecast {
     final DateTime date;
     final String shortDescription;
@@ -45,7 +47,63 @@ class Forecast {
     final double maxTemp;
     final double minTemp;
 
-    Forecast(this.date, this.shortDescription, this.conditionCode, this.maxTemp, this.minTemp);
+    /// Constructor strips off milli- and microseconds because the timestamp
+    /// that comes from OpenWeatherMap is seconds-based
+    Forecast(final DateTime date, this.shortDescription, this.conditionCode, this.minTemp, this.maxTemp)
+        : this.date = date.subtract(new Duration(milliseconds: date.millisecond,microseconds: date.microsecond));
+    
+    factory Forecast.fromJson(final data) {
+        Validate.notNull(data);
+        Validate.isTrue(data is String || data is Map<String,dynamic>,"JSON-Data must bei either a String or a Map!");
+
+        Map<String,dynamic> item;
+        if(data is String) {
+            item = JSON.decode(data);
+        } else {
+            item = data;
+        }
+        
+        Validate.isTrue(item.containsKey("dt")
+            && item.containsKey("weather") && item.containsKey("temp"),"Not a valid Forecast-Item!");
+
+        final DateTime day = new DateTime.fromMillisecondsSinceEpoch(item["dt"] * 1000);
+        final String description = item["weather"].first["description"];
+        final String code = item["weather"].first["main"];
+        final double min = double.parse(item["temp"]["min"].toString());
+        final double max = double.parse(item["temp"]["max"].toString());
+
+        return new Forecast(day, description, code, min, max);
+    }
+
+    Map<String,dynamic> toJson() {
+        final Map<String,dynamic> json = new Map<String,dynamic>();
+        json["dt"] = date.millisecondsSinceEpoch ~/ 1000;
+
+        json["weather"] = new List();
+
+        // Strange - but OpenWeatherMap is using a List too
+        (json["weather"] as List).add(
+            <String,dynamic>{
+                "description" : shortDescription,
+                "main" : conditionCode
+
+            }
+        );
+        json["temp"] = new Map<String,dynamic>();
+        (json["temp"] as Map<String,dynamic>)["min"] = minTemp;
+        (json["temp"] as Map<String,dynamic>)["max"] = maxTemp;
+
+        return json;
+    }
+
+    @override
+    String toString() {
+        return JSON.encode(toJson());
+    }
+
+    String toPrettyString() {
+        return PRETTYJSON.convert(toJson());
+    }
 }
 
 /// Temperature is available in Fahrenheit, Celsius

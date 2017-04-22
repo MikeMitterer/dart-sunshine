@@ -1,13 +1,13 @@
 /*
  * Copyright (c) 2017, Michael Mitterer (office@mikemitterer.at),
  * IT-Consulting and Development Limited.
- * 
+ *
  * All Rights Reserved.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *    http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
@@ -16,15 +16,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-     
-library dart_sunshine.services;
 
-import 'dart:async';
-import 'dart:convert';
-import 'dart:html' as dom;
+part of dart_sunshine.persistance;
 
-import 'package:http_utils/http_utils.dart';
-import 'package:validate/validate.dart';
-import 'package:dart_sunshine/model.dart';
+/// Exception is thrown if an error happens while accessing
+/// fields or data in the DB
+class DBException implements Exception {
 
-part "services/ForecastService.dart";
+    final String message;
+
+    /// Creates a new DBException with an optional error [message].
+    const DBException([this.message = ""]);
+
+}

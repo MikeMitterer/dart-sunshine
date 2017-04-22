@@ -17,14 +17,35 @@
  * limitations under the License.
  */
      
-library dart_sunshine.services;
+library dart_sunshine.persistance;
 
 import 'dart:async';
-import 'dart:convert';
-import 'dart:html' as dom;
 
-import 'package:http_utils/http_utils.dart';
-import 'package:validate/validate.dart';
 import 'package:dart_sunshine/model.dart';
+import "package:lawndart/lawndart.dart";
+import "package:validate/validate.dart";
 
-part "services/ForecastService.dart";
+
+part 'persitance/exeptions.dart';
+part 'persitance/ForecastDAO.dart';
+
+/// DBName und Tabellennamen für die DAO-Files
+class _DBSetting {
+    static const String DBNAME = "dart.sunshine";
+}
+
+/// Namen der Tabellen und der "default" DB werden festgelegt.
+/// Damit ist folgender Zugriff möglich:
+///     _Table.IDENTITY.name bzw. _Table.IDENTITY.db
+///
+class Table {
+    static const String _db = _DBSetting.DBNAME;
+    final String name;
+
+    static const Table FORECAST = const Table("forecast");
+
+    const Table(this.name);
+
+    String toString() => name;
+    String get db => _db;
+}

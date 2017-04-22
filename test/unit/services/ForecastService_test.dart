@@ -53,7 +53,7 @@ main() async {
             expect(forecast.length,14);
 
             forecast.forEach((final Forecast f) {
-                print(f.date);
+                print("${f.date}, ${f.shortDescription}, ${f.conditionCode}, ${f.minTemp}, ${f.maxTemp}");
             });
 
 

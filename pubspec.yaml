@@ -27,6 +27,8 @@ dependencies:
 
   http_utils: ^1.4.0
 
+  lawndart: ^0.9.0
+  
 dev_dependencies:
   test: any
   grinder: any
