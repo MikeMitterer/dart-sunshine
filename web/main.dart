@@ -1,8 +1,14 @@
 library dart_sunshine.main;
 
 import 'dart:async';
+import 'dart:convert';
 import 'dart:html' as dom;
 
+import 'dart:html';
+import 'package:dart_sunshine/components/interfaces/actions.dart';
+import 'package:dart_sunshine/model.dart';
+import 'package:dart_sunshine/persistence.dart';
+import 'package:http_utils/http_utils.dart';
 import 'package:logging/logging.dart';
 import 'package:console_log_handler/console_log_handler.dart';
 import 'package:di/di.dart' as di;
@@ -14,11 +20,15 @@ import 'package:mdl/mdl.dart';
 import 'package:service_worker/window.dart' as sw;
 
 import 'package:dart_sunshine/stores.dart';
+import 'package:dart_sunshine/components.dart';
 
 final Logger _logger = new Logger('mini_webapp.main');
 
 @MdlComponentModel @di.Injectable()
 class Application implements MaterialApplication {
+    /// Here is the API-Key for OpenWeatherMap
+    static const _SERVICE_CONFIG = "config/service-config.json";
+
     final Logger _logger = new Logger('main.Application');
     final Router _router = new Router(useFragment: true);
 
@@ -30,7 +40,13 @@ class Application implements MaterialApplication {
 
     @override
     void run() {
-        _bindSignals();
+        _readConfig().then((_) {
+            _bindSignals();
+
+            // Fire initial event to Update the Forecast-List
+            _actionbus.fire(new NetworkStateChanged(
+                dom.window.navigator.onLine ? NetworkState.ONLINE : NetworkState.OFFLINE));
+        });
     }
 
     void go(final String routePath, final Map params) {
@@ -45,15 +61,52 @@ class Application implements MaterialApplication {
         //    _logger.info("User clicked on 'Add'!");
         //});
 
-        
+        dom.window.onOnline.listen((_) => _actionbus.fire(new NetworkStateChanged(NetworkState.ONLINE)));
+        dom.window.onOffline.listen((_) => _actionbus.fire(new NetworkStateChanged(NetworkState.OFFLINE)));
     }
+
+    /// Application-Config (API-Key, default-Location...)
+    Future _readConfig() async {
+        final Uri uriConfig = new URIBuilder.forFile(_SERVICE_CONFIG).build();
+        final String jsonString = await HttpRequest.getString(uriConfig.toString());
+        final Map<String,dynamic> json = JSON.decode(jsonString);
+
+        Validate.isTrue(json.containsKey("apikey"),"Invalid config-file! Could not find 'apikey'.");
+
+        final SettingsDAO dao = new SettingsDAO();
+        final String apikey = json["apikey"];
+
+        try {
+            final Settings prevSettings = await dao.settings;
+
+            /// Update API-Key
+            return dao.save(new Settings(prevSettings.location, prevSettings.units, apikey));
+
+        } on DBException {
+
+            final String defaultLocation = json.containsKey("default_location")
+                ? json["default_location"]
+                : "London";
+
+            final String defaultUnits = json.containsKey("default_units")
+                ? json["default_units"]
+                : Units.METRIC.toString();
+
+            return dao.save(new Settings(
+                defaultLocation,
+                defaultUnits == Units.METRIC.toString() ? Units.METRIC : Units.IMPERIAL,
+                apikey));
+        }
+    }
+
 }
 
 Future main() async {
     configLogger();
 
     registerMdl();
-
+    registerSunshineComponents();
+    
     final Application application = await componentFactory().rootContext(Application)
         .addModule(new SampleModule())
         .run();

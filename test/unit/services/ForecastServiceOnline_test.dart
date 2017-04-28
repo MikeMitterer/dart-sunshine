@@ -23,11 +23,11 @@ main() async {
     final Settings settings = new Settings("London",Units.METRIC,OPEN_WEATHER_MAP_API_KEY);
     final Uri localForecast = new URIBuilder.forFile("../_resources/sample_data.json").build();
 
-    group('ForecastService', () {
+    group('ForecastServiceOnline', () {
         setUp(() { });
 
         test('> get uri', () {
-            final ForecastService service = new ForecastService(settings);
+            final ForecastServiceOnline service = new ForecastServiceOnline(settings);
 
             final String uriAsString = service.uri.toString();
             expect(uriAsString,"http://api.openweathermap.org/data/2.5/forecast/daily?"
@@ -47,14 +47,14 @@ main() async {
             final String jsonString = await HttpRequest.getString(localForecast.toString());
             final Map<String,dynamic> json = JSON.decode(jsonString);
 
-            final ForecastService service = new MockForecastService(settings,json);
+            final ForecastService service = new MockForecastService(json);
             final List<Forecast> forecast = await service.toForecast();
 
             expect(forecast.length,14);
 
-            forecast.forEach((final Forecast f) {
-                print("${f.date}, ${f.shortDescription}, ${f.conditionCode}, ${f.minTemp}, ${f.maxTemp}");
-            });
+            // forecast.forEach((final Forecast f) {
+            //    print("${f.date}, ${f.shortDescription}, ${f.conditionCode}, ${f.minTemp}, ${f.maxTemp}");
+            // });
 
 
         }); // end of 'toForecast' test

@@ -25,5 +25,5 @@ import 'package:dart_sunshine/model.dart';
 abstract class SunshineStore extends DataStore {
 
     /// Forecast for the next x days
-    List<Forecast> get forecast;
+    List<Forecast> get forecasts;
 }

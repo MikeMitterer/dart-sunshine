@@ -26,5 +26,22 @@ import 'dart:html' as dom;
 import 'package:http_utils/http_utils.dart';
 import 'package:validate/validate.dart';
 import 'package:dart_sunshine/model.dart';
+import 'package:dart_sunshine/persistence.dart';
 
 part "services/ForecastService.dart";
+part "services/ForecastServiceOnline.dart";
+part "services/ForecastServiceDB.dart";
+
+/// Converts JSON to Forecast-List
+Future<List<Forecast>> json2Forecast(final Map<String,dynamic> json) async {
+    final List<Forecast> forecast = new List<Forecast>();
+
+    if(json != null && json.containsKey("list")) {
+        final List<Map<String,dynamic>> list = json["list"] as List<Map<String,dynamic>>;
+        list.forEach((final Map<String,dynamic> item) {
+            forecast.add(new Forecast.fromJson(item));
+        });
+    }
+
+    return forecast;
+}

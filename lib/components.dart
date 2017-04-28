@@ -31,9 +31,11 @@ import 'package:validate/validate.dart';
 import 'package:logging/logging.dart';
 import 'package:di/di.dart' as di;
 
+import 'package:dart_sunshine/components/interfaces/stores.dart';
+import 'package:dart_sunshine/model.dart';
 
-part 'components/Forecast.dart';
+part 'components/ForecastComponent.dart';
 
 void registerSunshineComponents() {
-    registerForecast();
+    registerForecastComponent();
 }

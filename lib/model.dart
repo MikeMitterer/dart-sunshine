@@ -119,19 +119,23 @@ class Settings {
     /// More: https://openweathermap.org/forecast16#data
     final String _location;
     final Units _units;
-    final String _openWeatherMapApiKey;
+    final String _apiKey;
 
-    Settings(this._location, this._units,this._openWeatherMapApiKey) {
+    Settings(this._location, this._units,this._apiKey) {
         Validate.notBlank(_location);
         Validate.notNull(_units);
-        Validate.notBlank(_openWeatherMapApiKey);
+        Validate.notBlank(_apiKey);
     }
 
     Units get units => _units;
 
     String get location => _location;
 
-    String get openWeatherMapApiKey => _openWeatherMapApiKey;
+    String get apiKey => _apiKey;
+}
 
+/// Defines if we are online of offline
+enum NetworkState {
+    ONLINE, OFFLINE
 }
 

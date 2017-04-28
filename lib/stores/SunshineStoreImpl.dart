@@ -19,12 +19,89 @@
 
 part of dart_sunshine.stores;
 
+/// [SunshineStoreImpl] implements the Sunshine-Data-Model
+///
 class SunshineStoreImpl extends Dispatcher implements SunshineStore {
-    final List<Forecast> _forecast = new List<Forecast>();
+    final Logger _logger = new Logger('dart_sunshine.stores.SunshineStoreImpl');
+
+    final List<Forecast> _forecasts = new List<Forecast>();
+    DateTime _midnight;
 
     SunshineStoreImpl(final ActionBus actionbus) : super(actionbus) {
         Validate.notNull(actionbus);
+
+        final DateTime now = new DateTime.now();
+        _midnight = now.subtract(new Duration(hours: now.hour));
+
+        _bindActions();
     }
 
-    List<Forecast> get forecast => _forecast;
+    /// Returns all forecasts from today and newer
+    List<Forecast> get forecasts => _forecasts.where(
+        (final Forecast forecast) => forecast.date.difference(_midnight).inHours > 0
+    );
+
+    // - private -------------------------------------------------------------------------------------------------------
+
+    void _bindActions() {
+
+        on(NetworkStateChanged.NAME)
+            .map((final Action action) => action as NetworkStateChanged)
+            .listen((final NetworkStateChanged action) async {
+
+            _logger.fine("Received ${action.runtimeType} - NetworkState: ${action.data}");
+            await _updateForecasts(action.data);
+            
+            emitChange();
+        });
+
+        on(SettingsChanged.NAME)
+            .map((final Action action) => action as SettingsChanged)
+            .listen((final SettingsChanged action) async {
+
+            _logger.fine("Received ${action.runtimeType}");
+            await _updateForecasts(_networkstate);
+
+            emitChange();
+        });
+
+    }
+
+    Future _updateForecasts(final NetworkState state) async {
+        final SettingsDAO daoSettings = new SettingsDAO();
+        final ForecastDAO daoForecast = new ForecastDAO();
+        final Settings settings = await daoSettings.settings;
+
+        if(state == NetworkState.ONLINE) {
+            final ForecastService onlineService = new ForecastServiceOnline(settings);
+
+            /// Read Forecast from Online-Service and write it to the DB
+            Future<List<Forecast>> _updateOnlineForecast() async {
+                final List<Forecast> forecasts = await onlineService.toForecast();
+                await daoForecast.saveForecast(forecasts);
+
+                _logger.info("Forecast updated from Online-Service!");
+                daoForecast.saveLastUpdate(new DateTime.now());
+                return forecasts;
+            }
+
+            try {
+                final DateTime last_update = await daoForecast.last_update;
+                if(last_update.difference(new DateTime.now()).inHours > 1) {
+                    await _updateOnlineForecast();
+                }
+
+            } on DBException {
+                // Last_update was not available which means no data in db
+                await _updateOnlineForecast();
+            }
+
+        }
+        final ForecastService offlineService = new ForecastServiceDB();
+
+        _forecasts.clear();
+        _forecasts.addAll(await offlineService.toForecast());
+    }
+
+    NetworkState get _networkstate => dom.window.navigator.onLine ? NetworkState.ONLINE : NetworkState.OFFLINE;
 }

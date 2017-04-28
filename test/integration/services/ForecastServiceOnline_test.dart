@@ -1,4 +1,6 @@
 @TestOn("dartium")
+library test.integration.services.forecastservice;
+
 import 'package:test/test.dart';
 
 // import 'package:logging/logging.dart';
@@ -16,11 +18,11 @@ main() async {
 
     final Settings settings = new Settings("London",Units.METRIC,OPEN_WEATHER_MAP_API_KEY);
 
-    group('ForecastService', () {
+    group('ForecastServiceOnline', () {
         setUp(() { });
 
         test('> get uri', () async {
-            final ForecastService service = new ForecastService(settings);
+            final ForecastServiceOnline service = new ForecastServiceOnline(settings);
 
             final Map<String, dynamic> json = await service.toJson();
             //print(PRETTYJSON.convert(json));
@@ -32,7 +34,7 @@ main() async {
 
 
     });
-    // End of 'ForecastService' group
+    // End of 'ForecastServiceOnline' group
 }
 
 // - Helper --------------------------------------------------------------------------------------

@@ -41,23 +41,24 @@ class ForecastModule  extends di.Module {
 /// Controller-View for <forecast></forecast>
 ///
 @MdlComponentModel
-class Forecast extends MdlComponent {
-    final Logger _logger = new Logger('dart_sunshine.components.Forecast');
+class ForecastComponent extends MdlTemplateComponent {
+    final Logger _logger = new Logger('dart_sunshine.components.ForecastComponent');
 
     //static const _ForecastConstant _constant = const _ForecastConstant();
     static const _ForecastCssClasses _cssClasses = const _ForecastCssClasses();
     
     /// Change this to a more specific version
-    /* final */ DataStore _store;
-    
-    Forecast.fromElement(final dom.HtmlElement element,final di.Injector injector)
-        : /* _store = injector.get(SpecificDataStore), */ super(element,injector) {
+    final SunshineStore _store;
+
+    final ObservableList<Forecast> forecasts = new ObservableList<Forecast>();
+
+    ForecastComponent.fromElement(final dom.HtmlElement element,final di.Injector injector)
+        : _store = injector.get(SunshineStore), super(element,injector) {
         
         _init();
-        
     }
     
-    static Forecast widget(final dom.HtmlElement element) => mdlComponent(element,Forecast) as Forecast;
+    static ForecastComponent widget(final dom.HtmlElement element) => mdlComponent(element,ForecastComponent) as ForecastComponent;
     
     // Central Element - by default this is where forecast can be found (element)
     // html.Element get hub => inputElement;
@@ -75,15 +76,14 @@ class Forecast extends MdlComponent {
         
         // Recommended - add SELECTOR as class if this component is a TAG!
         element.classes.add(_ForecastConstant.WIDGET_SELECTOR);
-        
-        final dom.DivElement sample = new dom.DivElement();
-        sample.text = "Your Forecast-Component works!";
-        element.append(sample);
-        
-        _bindStoreActions();
-        _bindViewActions();
-        
-        element.classes.add(_cssClasses.IS_UPGRADED);
+
+        render().then((_) {
+
+            _bindStoreActions();
+            _bindViewActions();
+
+            element.classes.add(_cssClasses.IS_UPGRADED);
+        });
     }
     
     /// After the template is rendered we bind all the necessary Actions for this component
@@ -121,8 +121,35 @@ class Forecast extends MdlComponent {
     ///
     /// Usually this function is called if we get an onChange-event from our store
     void _updateView() {
-        
-    }    
+        if(_store.forecasts.length == forecasts.length) {
+            for(int index = 0;index < forecasts.length;index++) {
+                forecasts[index] = _store.forecasts[index];
+            }
+        } else {
+            forecasts.clear();
+            forecasts.addAll(_store.forecasts);
+        }
+    }
+
+    //- Template -----------------------------------------------------------------------------------
+
+    @override
+    final String template = """
+        <div mdl-repeat="forecast in forecasts">
+            {{! ----- Turn off default mustache interpretation (sitegen) ---- }} {{= | | =}}
+            <template>
+                <div>
+                    <div>{{forecast.date}}</div>
+                    <div>{{forecast.shortDescription}}</div>
+                    <div>{{forecast.conditionCode}}</div>
+                    <div>{{forecast.minTemp}}</div>
+                    <div>{{forecast.maxTemp}}</div>
+                </div>
+            </template>
+            |= {{ }} =| {{! ----- Turn on mustache ---- }}
+        </div>
+    """.trim().replaceAll(new RegExp(r"\s+")," ");
+
 }
 
 /// Registers the Forecast-Component
@@ -132,10 +159,10 @@ class Forecast extends MdlComponent {
 ///         ...
 ///     }
 ///
-void registerForecast() {
-    final MdlConfig config = new MdlWidgetConfig<Forecast>(
+void registerForecastComponent() {
+    final MdlConfig config = new MdlWidgetConfig<ForecastComponent>(
         _ForecastConstant.WIDGET_SELECTOR,
-            (final dom.HtmlElement element,final di.Injector injector) => new Forecast.fromElement(element,injector)
+            (final dom.HtmlElement element,final di.Injector injector) => new ForecastComponent.fromElement(element,injector)
     );
     
     // If you want <forecast></forecast> set selectorType to SelectorType.TAG.

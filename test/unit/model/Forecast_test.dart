@@ -62,6 +62,11 @@ main() async {
         expect(fcFromJson.maxTemp,forecast.maxTemp);
     }); // end of 'Pretty-String-Serialization' test
 
+    test('> Units2String', () {
+        final Units units = Units.METRIC;
+        expect(units.toString(),"Units.METRIC");
+    }); // end of 'Units2String' test
+
     // End of 'Forecast' group
 }
 

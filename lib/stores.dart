@@ -24,6 +24,7 @@ import 'dart:collection';
 import 'dart:html' as dom;
 import 'dart:math' as Math;
 
+import 'package:dart_sunshine/persistence.dart';
 import 'package:mdl/mdl.dart';
 import 'package:mdl/mdlutils.dart';
 
@@ -32,6 +33,7 @@ import 'package:logging/logging.dart';
 import 'package:di/di.dart' as di;
 
 import 'package:dart_sunshine/model.dart';
+import 'package:dart_sunshine/services.dart';
 import 'package:dart_sunshine/components/interfaces/actions.dart';
 import 'package:dart_sunshine/components/interfaces/stores.dart';
 

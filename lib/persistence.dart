@@ -17,7 +17,7 @@
  * limitations under the License.
  */
      
-library dart_sunshine.persistance;
+library dart_sunshine.persistence;
 
 import 'dart:async';
 
@@ -26,8 +26,9 @@ import "package:lawndart/lawndart.dart";
 import "package:validate/validate.dart";
 
 
-part 'persitance/exeptions.dart';
-part 'persitance/ForecastDAO.dart';
+part 'persitence/exeptions.dart';
+part 'persitence/ForecastDAO.dart';
+part 'persitence/SettingsDAO.dart';
 
 /// DBName und Tabellennamen für die DAO-Files
 class _DBSetting {
@@ -43,6 +44,7 @@ class Table {
     final String name;
 
     static const Table FORECAST = const Table("forecast");
+    static const Table SETTINGS = const Table("settings");
 
     const Table(this.name);
 

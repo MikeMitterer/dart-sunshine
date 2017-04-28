@@ -16,18 +16,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-     
+
 part of dart_sunshine.mock;
 
 /// Mocks [ForecastService]
 ///
-class MockForecastService extends ForecastService {
+class MockForecastService implements ForecastService {
 
-    final Map<String,dynamic> json;
+    final Map<String, dynamic> json;
 
-    MockForecastService(final Settings settings,this.json) :
-        super(settings);
+    MockForecastService(this.json);
 
     @override
-    Future<Map<String, dynamic>> toJson() async => new Future(() => json);
+    Future<List<Forecast>> toForecast() {
+        return json2Forecast(json);
+    }
 }

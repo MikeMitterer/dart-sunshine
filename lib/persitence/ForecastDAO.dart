@@ -1,4 +1,4 @@
-part of dart_sunshine.persistance;
+part of dart_sunshine.persistence;
 
 /// Identifiziert den Client über eine UUID
 class ForecastDAO {
@@ -34,7 +34,6 @@ class ForecastDAO {
     Future<List<Forecast>> get forecasts async {
         final Store db = await _db;
         final List<Forecast> forecasts = new List<Forecast>();
-
 
         final int nrOfItems = int.parse(await db.getByKey(_KEY_NUMBER_OF_FORECASTS), onError: (_) => 0);
         await Future.forEach(new List.generate(nrOfItems, (final int index) => index), (final int index) async {

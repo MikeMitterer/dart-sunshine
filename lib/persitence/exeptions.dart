@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-part of dart_sunshine.persistance;
+part of dart_sunshine.persistence;
 
 /// Exception is thrown if an error happens while accessing
 /// fields or data in the DB
