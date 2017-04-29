@@ -14,7 +14,7 @@ dependencies:
   logging_handlers: ^0.8.0
   console_log_handler: ^0.2.0
 
-  service_worker: anyser
+  service_worker: any
 
   dart_to_js_script_rewriter: '^1.0.1'
 
