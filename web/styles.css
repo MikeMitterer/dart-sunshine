@@ -7,7 +7,8 @@ html, body {
   font-family: 'Roboto', sans-serif; }
 
 .mdl-layout__header-row {
-  padding-left: 20px; }
+  padding-left: 20px;
+  padding-right: 12px; }
   .mdl-layout__header-row .mdl-layout-title a {
     text-decoration: none; }
   .mdl-layout__header-row .mdl-layout-title div {
@@ -36,6 +37,9 @@ html, body {
 .view-settings .mdl-layout__header-row-today, .view-map .mdl-layout__header-row-today {
   display: none; }
 
+.mdl-layout__header--waterfall:not(.is-compact) {
+  overflow: visible; }
+
 .mdl-layout__header-row-today {
   display: flex;
   flex-direction: row;
@@ -54,6 +58,8 @@ html, body {
     font-family: 'Open Sans', sans-serif;
     font-weight: 200;
     margin: 24px 17px 24px 33px; }
+    .mdl-layout__header--waterfall.is-compact .mdl-layout__header-row-today .forecast_today {
+      display: none; }
     @media screen and (min-width: 450px) {
       .mdl-layout__header-row-today .forecast_today {
         margin: 16px 59px 16px 73px; } }
