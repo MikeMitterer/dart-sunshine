@@ -52,7 +52,7 @@ class SunshineStoreImpl extends Dispatcher implements SunshineStore {
             .map((final Action action) => action as NetworkStateChanged)
             .listen((final NetworkStateChanged action) async {
 
-            _logger.fine("Received ${action.runtimeType} - NetworkState: ${action.data}");
+            _logger.info("Received ${action.runtimeType} - NetworkState: ${action.data}");
             await _updateForecasts(action.data);
             
             emitChange();
@@ -62,7 +62,7 @@ class SunshineStoreImpl extends Dispatcher implements SunshineStore {
             .map((final Action action) => action as SettingsChanged)
             .listen((final SettingsChanged action) async {
 
-            _logger.fine("Received ${action.runtimeType}");
+            _logger.info("Received ${action.runtimeType}");
             await _updateForecasts(_networkstate);
 
             emitChange();
@@ -90,6 +90,8 @@ class SunshineStoreImpl extends Dispatcher implements SunshineStore {
 
             try {
                 final DateTime last_update = await daoForecast.last_update;
+                
+                _logger.info("Last Forecast-DB-update: ${last_update}");
                 if(last_update.difference(new DateTime.now()).inHours > 1) {
                     await _updateOnlineForecast();
                 }

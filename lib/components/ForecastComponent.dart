@@ -51,7 +51,7 @@ class ForecastComponent extends MdlTemplateComponent {
     final SunshineStore _store;
 
     /// Avoid UI-Update race-conditions
-    bool _updating = false;
+    //bool _updating = false;
 
     final ObservableList<Forecast> forecasts = new ObservableList<Forecast>();
 
@@ -102,12 +102,7 @@ class ForecastComponent extends MdlTemplateComponent {
             //
             // }
 
-            if(!_updating) {
-                _updating = true;
-                _updateView();
-                _updating = false;
-            }
-
+            _updateView();
         });
     }
 
@@ -129,6 +124,7 @@ class ForecastComponent extends MdlTemplateComponent {
     ///
     /// Usually this function is called if we get an onChange-event from our store
     void _updateView() {
+        _logger.info("updateView - ${_store.forecasts.length} items in store");
         if(_store.forecasts.length == forecasts.length && _store.forecasts.isNotEmpty) {
             for(int index = 0;index < forecasts.length;index++) {
                 if(_store.forecasts.length > index) {

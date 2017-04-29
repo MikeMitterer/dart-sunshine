@@ -38,6 +38,7 @@ const JsonEncoder PRETTYJSON = const JsonEncoder.withIndent('   ');
 /// Represents one forecast entry
 ///
 /// Serialization and DeSerialization to and from Json is included
+@MdlComponentModel
 class Forecast {
     final DateTime date;
     final String shortDescription;
