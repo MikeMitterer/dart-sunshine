@@ -17,7 +17,7 @@ import 'package:validate/validate.dart';
 
 import 'package:mdl/mdl.dart';
 
-import 'package:service_worker/window.dart' as sw;
+//import 'package:service_worker/window.dart' as sw;
 
 import 'package:dart_sunshine/stores.dart';
 import 'package:dart_sunshine/components.dart';
@@ -120,26 +120,26 @@ Future main() async {
 
     application.run();
     
-    if (sw.isSupported && false) {
-        await sw.register('sw.dart.js');
-        _logger.info('ServiceWorker - registered...');
-
-        sw.ServiceWorkerRegistration registration = await sw.ready;
-        _logger.info('ServiceWorker - ready!');
-
-        sw.onMessage.listen((dom.MessageEvent event) {
-            _logger.info('reply received: ${event.data}');
-        });
-
-        sw.ServiceWorker active = registration.active;
-        active.postMessage('x');
-        _logger.info('sent');
-
-        //    sw.PushSubscription subs = await registration.pushManager
-        //        .subscribe(new sw.PushSubscriptionOptions(userVisibleOnly: true));
-
-        //    _logger.fine('endpoint: ${subs.endpoint}');
-    }
+//    if (sw.isSupported && false) {
+//        await sw.register('sw.dart.js');
+//        _logger.info('ServiceWorker - registered...');
+//
+//        sw.ServiceWorkerRegistration registration = await sw.ready;
+//        _logger.info('ServiceWorker - ready!');
+//
+//        sw.onMessage.listen((dom.MessageEvent event) {
+//            _logger.info('reply received: ${event.data}');
+//        });
+//
+//        sw.ServiceWorker active = registration.active;
+//        active.postMessage('x');
+//        _logger.info('sent');
+//
+//        //    sw.PushSubscription subs = await registration.pushManager
+//        //        .subscribe(new sw.PushSubscriptionOptions(userVisibleOnly: true));
+//
+//        //    _logger.fine('endpoint: ${subs.endpoint}');
+//    }
 }
 
 /**
