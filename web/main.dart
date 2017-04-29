@@ -53,6 +53,8 @@ class Application implements MaterialApplication {
         _router.go(routePath,params);
     }
 
+    void fire(final Action action) => _actionbus.fire(action);
+
     //- private -----------------------------------------------------------------------------------
 
     void _bindSignals() {
@@ -118,7 +120,7 @@ Future main() async {
 
     application.run();
     
-    if (sw.isSupported) {
+    if (sw.isSupported && false) {
         await sw.register('sw.dart.js');
         _logger.info('ServiceWorker - registered...');
 
@@ -161,7 +163,7 @@ class DefaultController extends MaterialController {
 
         final Application app = componentFactory().application;
 
-        _logger.info("DefaultController loaded!");
+        _logger.fine("DefaultController loaded!");
     }
     // - private -------------------------------------------------------------------------------------------------------
 
@@ -180,7 +182,7 @@ class ControllerHome extends DefaultController {
     @override
     void loaded(final Route route) {
         super.loaded(route);
-        _logger.info("ControllerHome loaded!");
+        _logger.fine("ControllerHome loaded!");
 
         bodyMarker = "home";
 
@@ -188,7 +190,7 @@ class ControllerHome extends DefaultController {
 
     @override
     void unload() {
-        _logger.info("ControllerHome unloaded!");
+        _logger.fine("ControllerHome unloaded!");
 
     }
     // - private ------------------------------------------------------------------------------------------------------
@@ -200,14 +202,15 @@ class ControllerSettings extends DefaultController {
     @override
     void loaded(final Route route) {
         super.loaded(route);
-        _logger.info("ControllerSettings loaded!");
+        _logger.fine("ControllerSettings loaded!");
 
         bodyMarker = "settings";
     }
 
     @override
     void unload() {
-        _logger.info("ControllerSettings unloaded!");
+        (componentFactory().application as Application).fire(new SettingsChanged());
+        _logger.fine("ControllerSettings unloaded!");
 
     }
     // - private ------------------------------------------------------------------------------------------------------
@@ -219,14 +222,14 @@ class ControllerMap extends DefaultController {
     @override
     void loaded(final Route route) {
         super.loaded(route);
-        _logger.info("ControllerMap loaded!");
+        _logger.fine("ControllerMap loaded!");
 
         bodyMarker = "map";
     }
 
     @override
     void unload() {
-        _logger.info("ControllerMap unloaded!");
+        _logger.fine("ControllerMap unloaded!");
 
     }
     // - private ------------------------------------------------------------------------------------------------------

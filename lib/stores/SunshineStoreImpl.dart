@@ -21,6 +21,7 @@ part of dart_sunshine.stores;
 
 /// [SunshineStoreImpl] implements the Sunshine-Data-Model
 ///
+@MdlComponentModel @di.Injectable()
 class SunshineStoreImpl extends Dispatcher implements SunshineStore {
     final Logger _logger = new Logger('dart_sunshine.stores.SunshineStoreImpl');
 
@@ -37,9 +38,11 @@ class SunshineStoreImpl extends Dispatcher implements SunshineStore {
     }
 
     /// Returns all forecasts from today and newer
-    List<Forecast> get forecasts => _forecasts.where(
-        (final Forecast forecast) => forecast.date.difference(_midnight).inHours > 0
-    );
+    List<Forecast> get forecasts =>
+        _forecasts.where( (final Forecast forecast) =>
+                    forecast.date
+                    .difference(_midnight)
+                    .inHours > 0).toList();
 
     // - private -------------------------------------------------------------------------------------------------------
 

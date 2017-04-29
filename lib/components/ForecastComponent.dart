@@ -50,6 +50,9 @@ class ForecastComponent extends MdlTemplateComponent {
     /// Change this to a more specific version
     final SunshineStore _store;
 
+    /// Avoid UI-Update race-conditions
+    bool _updating = false;
+
     final ObservableList<Forecast> forecasts = new ObservableList<Forecast>();
 
     ForecastComponent.fromElement(final dom.HtmlElement element,final di.Injector injector)
@@ -59,9 +62,10 @@ class ForecastComponent extends MdlTemplateComponent {
     }
     
     static ForecastComponent widget(final dom.HtmlElement element) => mdlComponent(element,ForecastComponent) as ForecastComponent;
-    
+
     // Central Element - by default this is where forecast can be found (element)
     // html.Element get hub => inputElement;
+    
     
     // - EventHandler -----------------------------------------------------------------------------
 
@@ -98,7 +102,11 @@ class ForecastComponent extends MdlTemplateComponent {
             //
             // }
 
-            _updateView();
+            if(!_updating) {
+                _updating = true;
+                _updateView();
+                _updating = false;
+            }
 
         });
     }
@@ -121,9 +129,12 @@ class ForecastComponent extends MdlTemplateComponent {
     ///
     /// Usually this function is called if we get an onChange-event from our store
     void _updateView() {
-        if(_store.forecasts.length == forecasts.length) {
+        if(_store.forecasts.length == forecasts.length && _store.forecasts.isNotEmpty) {
             for(int index = 0;index < forecasts.length;index++) {
-                forecasts[index] = _store.forecasts[index];
+                if(_store.forecasts.length > index) {
+                    //_logger.info("$index: ${_store.forecasts.runtimeType}");
+                    forecasts[index] = _store.forecasts[index];
+                }
             }
         } else {
             forecasts.clear();
