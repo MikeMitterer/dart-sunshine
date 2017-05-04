@@ -15,7 +15,10 @@ import 'package:di/di.dart' as di;
 import 'package:route_hierarchical/client.dart';
 import 'package:validate/validate.dart';
 
-import 'package:mdl/mdl.dart';
+import 'package:mdl/mdl.dart' deferred as mdl;
+import 'package:mdl/mdlcore.dart';
+import 'package:mdl/mdlflux.dart';
+import 'package:mdl/mdlapplication.dart';
 
 //import 'package:service_worker/window.dart' as sw;
 
@@ -106,10 +109,12 @@ class Application implements MaterialApplication {
 Future main() async {
     configLogger();
 
-    registerMdl();
+    await mdl.loadLibrary();
+    mdl.registerMdl();
+
     registerSunshineComponents();
     
-    final Application application = await componentFactory().rootContext(Application)
+    final Application application = await mdl.componentFactory().rootContext(Application)
         .addModule(new SampleModule())
         .run();
 
@@ -161,7 +166,7 @@ class DefaultController extends MaterialController {
     @override
     void loaded(final Route route) {
 
-        final Application app = componentFactory().application;
+        final Application app = mdl.componentFactory().application;
 
         _logger.fine("DefaultController loaded!");
     }
@@ -209,7 +214,7 @@ class ControllerSettings extends DefaultController {
 
     @override
     void unload() {
-        (componentFactory().application as Application).fire(new SettingsChanged());
+        (mdl.componentFactory().application as Application).fire(new SettingsChanged());
         _logger.fine("ControllerSettings unloaded!");
 
     }
